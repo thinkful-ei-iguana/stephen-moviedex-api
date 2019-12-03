@@ -11,7 +11,9 @@ const app = express();
 app.use(morgan('dev'));
 app.use(helmet());
 app.use(cors());
-app.use(function validateBearerToken(req, res, next) {
+app.use(validateBearerToken);
+
+function validateBearerToken(req, res, next) {
   const apiToken = process.env.API_TOKEN;
   const authToken = req.get('Authorization');
 
@@ -23,7 +25,7 @@ app.use(function validateBearerToken(req, res, next) {
       });
   }
   next();
-});
+}
 
 function handleGetMovie(req, res) {
   let response = moviedex;
